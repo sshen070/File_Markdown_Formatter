@@ -12,25 +12,25 @@ def fileCleaner(fileName):
 
         # If the line starts with '#' --> must be header
         if wordList[0].startswith("#"):
-            # Determines the next index a new line is required
-            nextLineValue = bulletTracker(wordList) 
-
-            writeFile.write(" ".join(wordList[0:nextLineValue]))
-            writeFile.write("\n\n")
-
-            # Removes words that have been written to the file
-            wordList = wordList[nextLineValue:]
-
-            print("After header delete:", wordList)
-            print(bulletTracker(wordList))
-
-            if (bulletTracker(wordList) != len(wordList)):  # If true --> make bullet points
+            
+            if (headerEndTracker(wordList)):
+                headerMaker(wordList, writeFile)
+            else:
                 bulletMaker(wordList, writeFile)
 
-            # Wordlist is not empty --> write remaining words to file        
-            if wordList:
-                writeFile.write(" ".join(wordList))
-                writeFile.write("\n\n")
+            writeFile.write("\n")
+
+            # If bullets exist --> create bullet points
+            while (bulletTracker(wordList) != len(wordList)):
+                bulletMaker(wordList, writeFile)            
+            
+
+        # Wordlist is not empty --> write remaining words to file        
+        if wordList:
+            writeFile.write(" ".join(wordList))
+            writeFile.write("\n\n")
+
+
 
                 
         # # Continues until all words in the line are processed
@@ -44,14 +44,32 @@ def fileCleaner(fileName):
     writeFile.close()
 
 
-def upperLower(wordList):
-    for i in range(len(wordList) - 1):
-
-        # # If first word is upper case & the second is lower --> issue with formating
-        if (not wordList[i].islower() and wordList[i + 1].islower()):
-            return i
-        
+# Determines when a new Line is required (Headers)
+# Upper | Upper lower --> End of header | Body text (First word capitalized --> rest lower case)  
+def headerEndTracker(wordList):
+    # If there are bullet points in the wordList --> do not make a header
+    if (bulletTracker(wordList) != len(wordList)):
+        return 0
+    
+    for i in range(len(wordList) - 2):
+            # If first word is upper case & the second is lower --> issue with formating
+            if (not wordList[i].islower() and not wordList[i + 1].islower() and wordList[i + 2].islower()):
+                return i + 1
+            
+            
     return len(wordList)
+
+
+def headerMaker(wordList, writeFile):
+    nextHeader = headerEndTracker(wordList)
+    
+    # Create header
+    writeFile.write(" ".join(wordList[0:nextHeader]))
+
+    writeFile.write("\n")
+    del wordList[0:nextHeader]
+    nextHeader = headerEndTracker(wordList)
+
 
 
 
@@ -69,25 +87,11 @@ def bulletTracker(wordList):
 
 
 
-    
-
 def bulletMaker(wordList, writeFile):
     nextBullet = bulletTracker(wordList)
-    # if (nextBullet == 0):
-    #     nextBullet = 1    
     
-    while (nextBullet > 0):
+    # Create bullet point
+    writeFile.write(" ".join(wordList[0:nextBullet]))
 
-        # Create bullet point
-        print(wordList[0:nextBullet])
-        writeFile.write(" ".join(wordList[0:nextBullet]))
-
-        writeFile.write("\n")
-        print("Before delete:", wordList)
-        del wordList[0:nextBullet]
-        print("After delete:", wordList)
-
-        nextBullet = bulletTracker(wordList)
-
-
-    # Remove words that have been written
+    writeFile.write("\n")
+    del wordList[0:nextBullet]
