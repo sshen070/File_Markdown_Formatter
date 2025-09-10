@@ -6,43 +6,33 @@ def fileCleaner(fileName):
     # Iterates through each line in the file
     for line in readFile:
         wordList = line.strip().split()
-
+        print(wordList)
         if not wordList:
             continue
 
         # If the line starts with '#' --> must be header
         if wordList[0].startswith("#"):
             # Determines the next index a new line is required
-            nextLineValue = newLineTracker(wordList)
+            nextLineValue = bulletTracker(wordList) 
 
-            for word in wordList[0:nextLineValue]:
-                writeFile.write(word)
-                if (word != wordList[nextLineValue - 1]):
-                    writeFile.write(" ")
-
+            writeFile.write(" ".join(wordList[0:nextLineValue]))
             writeFile.write("\n\n")
 
             # Removes words that have been written to the file
             wordList = wordList[nextLineValue:]
 
-            while (nextBulletTracker(wordList)):  # If true --> make bullet points
-                print("Bullet Point Detected")
+            print("After header delete:", wordList)
+            print(bulletTracker(wordList))
+
+            if (bulletTracker(wordList) != len(wordList)):  # If true --> make bullet points
                 bulletMaker(wordList, writeFile)
 
-        
-            # Writes the rest of the words in the line
-            # for word in wordList:
-            #     writeFile.write(word)
-            #     if (word != wordList[-1]):
-            #         writeFile.write(" ")
-
-            # writeFile.write("\n\n")
+            # Wordlist is not empty --> write remaining words to file        
             if wordList:
-                writeFile.write(" ".join(wordList) + "\n\n")
+                writeFile.write(" ".join(wordList))
+                writeFile.write("\n\n")
 
                 
-
-
         # # Continues until all words in the line are processed
         # while (len(wordList) > 0):
         #     nextLineValue = nextNewLineRequired(wordList)
@@ -54,14 +44,8 @@ def fileCleaner(fileName):
     writeFile.close()
 
 
-# Determines the next index in wordList when a  new line is required
-def newLineTracker(wordList):
+def upperLower(wordList):
     for i in range(len(wordList) - 1):
-
-        # If '*' appears --> we have a list under a header list
-        if wordList[i].startswith("*"):
-            return i + 1
-
 
         # # If first word is upper case & the second is lower --> issue with formating
         if (not wordList[i].islower() and wordList[i + 1].islower()):
@@ -70,31 +54,40 @@ def newLineTracker(wordList):
     return len(wordList)
 
 
-def nextBulletTracker(wordList):
-    for word in range(len(wordList) - 1):
+
+# Determines the next index in wordList when a  new line is required
+def bulletTracker(wordList):
+    for i in range(len(wordList) - 1):
 
         # If '*' appears --> we have a list under a header list
-        if wordList[word].startswith("*"):
-            return True
+        if wordList[i].startswith("*"):
+            if (i == 0):
+                return bulletTracker(wordList[1:]) + 1
+            return i
+                    
+    return len(wordList)
 
-    return False
+
+
     
 
 def bulletMaker(wordList, writeFile):
-    nextBullet = newLineTracker(wordList)
+    nextBullet = bulletTracker(wordList)
+    # if (nextBullet == 0):
+    #     nextBullet = 1    
+    
+    while (nextBullet > 0):
 
-    if nextBullet == 0:  # safety check
-        del wordList[0]
-        return
+        # Create bullet point
+        print(wordList[0:nextBullet])
+        writeFile.write(" ".join(wordList[0:nextBullet]))
 
+        writeFile.write("\n")
+        print("Before delete:", wordList)
+        del wordList[0:nextBullet]
+        print("After delete:", wordList)
 
-    # Create bullet point
-    for word in wordList[0:nextBullet]:
-        writeFile.write(word)
-        if (word != wordList[nextBullet - 1]):
-            writeFile.write(" ")
+        nextBullet = bulletTracker(wordList)
 
-    writeFile.write("\n")
 
     # Remove words that have been written
-    del wordList[0:nextBullet]
