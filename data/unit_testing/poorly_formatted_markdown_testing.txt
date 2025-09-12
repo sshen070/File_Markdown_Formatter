@@ -1,0 +1,6 @@
+# Airport Geodetic Control Survey Work Establishing geodetic control provides accuracy for aeronautical information, engineering surveys, and mapping to support planning, design, construction, operation, maintenance, and management of airport facilities. This control establishes a tie to the National Spatial Reference System (NSRS), providing a common set of geographical coordinates relative to other parts of the National Airspace System.
+
+## Reconnaissance Activities Reconnaissance activities for each survey must include reviewing station descriptions in the NGS database, coordinating with airport authorities, mark recovery, selecting PACS, SACS, and NSRS ties, preparing required documentation, compiling a Project Survey Plan, and discussing future construction plans. Control stations (survey marks) must be considered for use in these projects.
+
+## Types of Control Stations * Horizontal: All control stations with stability codes A, B, or C, and high-accuracy GPS control stations. * Vertical: First-order and second-order NAVD 88 vertical control stations within the project area.
+
