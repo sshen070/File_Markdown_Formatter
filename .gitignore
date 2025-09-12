@@ -1,6 +1,3 @@
 /venv
-/poorly_formatted_markdown.txt
-/well_formatted_markdown.txt
 src/sujith_tools/__pycache__/
-src/sujith_tools/cleanedFile.txt
-src/sujith_tools/poorly_formatted_markdown.txt
+git
