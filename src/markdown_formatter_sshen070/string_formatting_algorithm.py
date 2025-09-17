@@ -1,11 +1,11 @@
-def str_markdown_cleaner(unformatted_line: str) -> str:
+def string_markdown_cleaner(unformatted_line: str) -> str:
     word_list: list[str] = unformatted_line.strip().split()
     formatted_line: str = ""
 
     period_splicer(word_list)
 
     while word_list:
-    # If the line starts with '#' --> must be header
+        # If the line starts with '#' --> must be header
         if word_list[0].startswith("#"):
 
             if header_end_tracker(word_list):
@@ -21,7 +21,8 @@ def str_markdown_cleaner(unformatted_line: str) -> str:
         # Line begins with body text
         elif not word_list[0].startswith("#"):
 
-            if colon_tracer(word_list) != len(word_list) or word_list[-1].endswith(":"):
+            if colon_tracer(word_list) != len(
+                    word_list) or word_list[-1].endswith(":"):
                 formatted_line += colon_spacer(word_list)
 
             while bullet_tracker(word_list) != len(word_list):
@@ -39,7 +40,6 @@ def str_markdown_cleaner(unformatted_line: str) -> str:
     return formatted_line
 
 
-
 def header_exists(word_list: list[str]) -> int:
     for i, word in enumerate(word_list):
         if word.startswith("#"):
@@ -52,8 +52,7 @@ def header_end_tracker(word_list: list[str]) -> int:
         return 0
 
     for i in range(len(word_list) - 2):
-        if (not word_list[i].islower()
-                and not word_list[i + 1].islower()
+        if (not word_list[i].islower() and not word_list[i + 1].islower()
                 and word_list[i + 2].islower()):
             if word_comparator(word_list[i + 2]):
                 continue
