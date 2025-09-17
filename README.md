@@ -1,31 +1,44 @@
 # Markdown Cleaner
 
-A Python utility that cleans and reformats poorly structured Markdown files.  
+A Python utility that cleans poorly structured Markdown strings and files.  
 
-This tool automatically fixes headers, bullet points, colons, and misplaced text formatting to produce clean and consistent Markdown output.
+This tool automatically fixes issues with headers, bullet points, colons, and misplaced formatting to produce clean, consistent Markdown output.
 
----
+## Input Options
+
+1. **Strings**
+   - Accepts a string from the command line  
+   - Outputs properly formatted text to the terminal  
+
+2. **Files**
+   - Accepts an input file and an output file  
+   - Writes a cleanly formatted version of the input to the output file  
 
 ## Features
 
-- **Header detection and formatting**  
+* **Header detection and formatting**  
   Ensures `#` headers are properly separated from body text.  
 
-- **Bullet point normalization**  
+* **Bullet point normalization**  
   Detects `*` and restructures lines into clean lists.  
 
-- **Colon spacing rules**  
+* **Colon spacing rules**  
   Splits text after colons (`:`) when appropriate.  
 
-- **Period handling**  
-  Splits words incorrectly stuck together by periods.  
+* **Period handling**  
+  Separates words incorrectly joined by periods.  
 
-- **Flexible parsing**  
-  Skips malformed sections but preserves all content.  
-
----
+* **Flexible parsing**  
+  Fixes malformed sections while preserving all content.  
 
 ## Usage
 
+### Strings
 ```bash
-python cleaner.py input.md output.md
+python main.py "<input_string>"
+```
+
+### Files
+```bash
+python main.py <input_file> <output_file>
+```
