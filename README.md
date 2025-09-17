@@ -33,12 +33,12 @@ This tool automatically fixes issues with headers, bullet points, colons, and mi
 
 ## Usage
 
-### Strings
+#### Strings
 ```bash
 python main.py "<input_string>"
 ```
 
-### Files
+#### Files
 ```bash
 python main.py <input_file> <output_file>
 ```
