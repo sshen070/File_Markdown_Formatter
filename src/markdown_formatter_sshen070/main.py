@@ -1,25 +1,50 @@
+import sys
 from pathlib import Path
-from formatingAlgorithm import file_cleaner
+from markdown_formatter_sshen070.formatting_algorithm import markdown_cleaner
+from str_formatting_algorithm import str_markdown_cleaner
 
 
-def main() -> None:
+# Task 1: Accepts a string and returns a formatted string
+def main_str(arg_string: str) -> None:
+    print("\n")
+    print("Original String:")
+    print(arg_string)
+
+    print("\n")
+    print("Formatted String:")
+    print(str_markdown_cleaner(arg_string))
+
+
+# Task 2: Accepts input and output file names, reads from input file, writes to output file
+def main_files(arg_file1: str, arg_file2: str) -> None:
+
+    input_file = Path(arg_file1)
+    output_file = Path(arg_file2)
+
     main_dir = Path(__file__).resolve().parent.parent.parent
-
-
     print (f"Source Directory: {main_dir}")
     
-    # # Input/output paths for unit_testing
-    read_path = main_dir / "tests" / "unit_testing" / "poorly_formatted_markdown_testing.txt"
-    write_path = main_dir / "tests" / "unit_testing" / "cleanedFile_testing.txt"
+    # Files located in tests/ folder
+    input_path = main_dir / "tests" / input_file
+    output_path = main_dir / "tests" / output_file
 
-    # Input/output paths for full file
-    full_read_path = main_dir / "tests" / "poorly_formatted_full.txt"
-    full_write_path = main_dir / "tests" / "cleaned_full.txt"
+    # Run cleaner
+    markdown_cleaner(input_path, output_path)
 
-
-    file_cleaner(read_path, write_path)
-    file_cleaner(full_read_path, full_write_path)
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) != 2 and len(sys.argv) != 3:
+        print("Usage: python main.py <input_file> <output_file>")
+        print("Or: python main.py <input_string>")
+        sys.exit(1)
+
+    # Task 1: String to String
+    if (len(sys.argv) == 2):
+        main_str(sys.argv[1])
+    
+    # Task 2: File to File
+    elif (len(sys.argv) == 3):
+        main_files(sys.argv[1], sys.argv[2])
+
+
